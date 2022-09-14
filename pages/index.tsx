@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import Header from "../components/Header";
+import SignUp from "../components/SignUp";
 
 const style = {
     wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -40,13 +41,13 @@ const Home: NextPage = () => {
             </div>
         ) : (
             <div className={style.signupContainer}>
-                {/*<SignUp*/}
-                {/*    setRegistered={setRegistered}*/}
-                {/*    name={name}*/}
-                {/*    setName={setName}*/}
-                {/*    url={url}*/}
-                {/*    setUrl={setUrl}*/}
-                {/*/>*/}
+                <SignUp
+                    setRegistered={setRegistered}
+                    name={name}
+                    setName={setName}
+                    url={url}
+                    setUrl={setUrl}
+                />
             </div>
         )}
     </div>
