@@ -3,6 +3,8 @@ import toast, { Toaster } from 'react-hot-toast'
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
+import { SOLANA_HOST } from '../utils/const'
+
 
 const anchor = require('@project-serum/anchor')
 const { BN, web3 } = anchor

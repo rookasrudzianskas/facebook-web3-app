@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import Header from "../components/Header";
 import SignUp from "../components/SignUp";
+import Feed from "../components/Feed";
 
 const style = {
     wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
             <div className={style.homeWrapper}>
                 {/*<Sidebar name={name} url={url} />*/}
                 <div className={style.main}>
-                    {/*<Feed connected={wallet.connected} name={name} url={url} />*/}
+                    <Feed connected={wallet.connected} name={name} url={url} />
                 </div>
                 {/*<RightSidebar*/}
                 {/*    getUsers={requestUsersData}*/}
