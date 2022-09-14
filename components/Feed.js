@@ -5,6 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
 import { SOLANA_HOST } from '../utils/const'
 import {getProgramInstance} from "../utils/get-program";
+import CreatePost from "./CreatePost";
 
 
 const anchor = require('@project-serum/anchor')
