@@ -34,7 +34,10 @@ const Home: NextPage = () => {
             <div className={style.homeWrapper}>
                 {/*<Sidebar name={name} url={url} />*/}
                 <div className={style.main}>
-                    <Feed connected={wallet.connected} name={name} url={url} />
+                    {/* @ts-ignore */}
+                    <Feed
+                        // connected={wallet.connected}
+                        name={name} url={url} />
                 </div>
                 {/*<RightSidebar*/}
                 {/*    getUsers={requestUsersData}*/}

@@ -4,6 +4,7 @@ import { TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
 import { SOLANA_HOST } from '../utils/const'
+import {getProgramInstance} from "../utils/get-program";
 
 
 const anchor = require('@project-serum/anchor')
@@ -24,11 +25,11 @@ const defaultAccounts = {
 
 const Feed = ({ connected, name, url }) => {
 
-    // const wallet = useWallet()
-    // const connection = new anchor.web3.Connection(SOLANA_HOST)
-    // const program = getProgramInstance(connection, wallet)
-    // const [posts, setPosts] = useState([])
-    // const [loading, setLoading] = useState(true)
+    const wallet = useWallet()
+    const connection = new anchor.web3.Connection(SOLANA_HOST)
+    const program = getProgramInstance(connection, wallet)
+    const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(true)
     //
     // useEffect(() => {
     //     const interval = setInterval(async () => {
@@ -49,21 +50,21 @@ const Feed = ({ connected, name, url }) => {
     //     })
     // }, [posts.length])
     //
-    // const getAllPosts = async () => {
-    //     try {
-    //         const postsData = await program.account.postAccount.all()
-    //
-    //         postsData.sort(
-    //             (a, b) => b.account.postTime.toNumber() - a.account.postTime.toNumber(),
-    //         )
-    //
-    //         setPosts(postsData)
-    //
-    //         setLoading(false)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
+    const getAllPosts = async () => {
+        try {
+            const postsData = await program.account.postAccount.all()
+
+            postsData.sort(
+                (a, b) => b.account.postTime.toNumber() - a.account.postTime.toNumber(),
+            )
+
+            setPosts(postsData)
+
+            setLoading(false)
+        } catch (error) {
+            console.error(error)
+        }
+    }
     //
     // const getCommentsOnPost = async (index, oldPost) => {
     //     try {
@@ -101,49 +102,49 @@ const Feed = ({ connected, name, url }) => {
     //     }
     // }
     //
-    // const savePost = async text => {
-    //     let [stateSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //         [utf8.encode('state')],
-    //         program.programId,
-    //     )
-    //
-    //     let stateInfo
-    //
-    //     try {
-    //         stateInfo = await program.account.stateAccount.fetch(stateSigner)
-    //     } catch (error) {
-    //         await program.rpc.createState({
-    //             accounts: {
-    //                 state: stateSigner,
-    //                 authority: wallet.publicKey,
-    //                 ...defaultAccounts,
-    //             },
-    //         })
-    //
-    //         return
-    //     }
-    //
-    //     let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //         [utf8.encode('post'), stateInfo.postCount.toArrayLike(Buffer, 'be', 8)],
-    //         program.programId,
-    //     )
-    //
-    //     try {
-    //         await program.account.postAccount.fetch(postSigner)
-    //     } catch {
-    //         await program.rpc.createPost(text, name, url, {
-    //             accounts: {
-    //                 state: stateSigner,
-    //                 post: postSigner,
-    //                 authority: wallet.publicKey,
-    //                 ...defaultAccounts,
-    //             },
-    //         })
-    //
-    //         setPosts(await program.account.postAccount.all())
-    //     }
-    // }
-    //
+    const savePost = async text => {
+        let [stateSigner] = await anchor.web3.PublicKey.findProgramAddress(
+            [utf8.encode('state')],
+            program.programId,
+        )
+
+        let stateInfo
+
+        try {
+            stateInfo = await program.account.stateAccount.fetch(stateSigner)
+        } catch (error) {
+            await program.rpc.createState({
+                accounts: {
+                    state: stateSigner,
+                    authority: wallet.publicKey,
+                    ...defaultAccounts,
+                },
+            })
+
+            return
+        }
+
+        let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
+            [utf8.encode('post'), stateInfo.postCount.toArrayLike(Buffer, 'be', 8)],
+            program.programId,
+        )
+
+        try {
+            await program.account.postAccount.fetch(postSigner)
+        } catch {
+            await program.rpc.createPost(text, name, url, {
+                accounts: {
+                    state: stateSigner,
+                    post: postSigner,
+                    authority: wallet.publicKey,
+                    ...defaultAccounts,
+                },
+            })
+
+            setPosts(await program.account.postAccount.all())
+        }
+    }
+
     // const saveComment = async (text, index, count) => {
     //     let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
     //         [utf8.encode('post'), index.toArrayLike(Buffer, 'be', 8)],
