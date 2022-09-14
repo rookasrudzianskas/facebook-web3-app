@@ -13,9 +13,47 @@ const USER_URL_LENGTH: usize = 255;
 pub mod programs {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    pub fn create_state(ctx: Context<CreateState>) -> Result<()> {
+        // Get state from context
+        let state = &mut ctx.accounts.state;
+        // Save authority to state
+        state.authority = ctx.accounts.authority.key();
+        // Set post count as 0 when initializing
+        state.post_count = 0;
         Ok(())
     }
+
+    pub fn create_post(
+        ctx: Context<CreatePost>,
+        text: String,
+        poster_name: String,
+        poster_url: String,
+    ) -> Result<()> {
+        // Get State
+        let state = &mut ctx.accounts.state;
+
+        // Get post
+        let post = &mut ctx.accounts.post;
+        // Set authority
+        post.authority = ctx.accounts.authority.key();
+        // Set text
+        post.text = text;
+        // Set poster name
+        post.poster_name = poster_name;
+        // Set poster avatar url
+        post.poster_url = poster_url;
+        // Set comment count as 0
+        post.comment_count = 0;
+        // Set post index as state's post count
+        post.index = state.post_count;
+        // Set post time
+        post.post_time = ctx.accounts.clock.unix_timestamp;
+        // Increase state's post count by 1
+        state.post_count += 1;
+        Ok(())
+    }
+
+
 }
 
 // Contexts
@@ -66,7 +104,7 @@ pub struct CreatePost<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
 
-    /// System program
+    // System program
     pub system_program: UncheckedAccount<'info>,
 
     // Token program
