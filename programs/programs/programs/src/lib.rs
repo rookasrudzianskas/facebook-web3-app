@@ -2,9 +2,10 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token};
 use std::mem::size_of;
+use anchor_lang::solana_program::entrypoint::ProgramResult;
 
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("GKUC7b5F57TM8J4w2wms9p6qxsSN96QJnzJCBVaqVTEw");
 
 // Post and comment text length
 const TEXT_LENGTH: usize = 1024;
@@ -13,14 +14,14 @@ const USER_NAME_LENGTH: usize = 100;
 // User profile imaage url length
 const USER_URL_LENGTH: usize = 255;
 
-// Facebook Clone program
+/// Facebook Clone program
 #[program]
 pub mod facebook_clone {
     use super::*;
 
-    // Create state to save the post counts
-    // There is only one state in the program
-    // This account should be initialized before post
+    /// Create state to save the post counts
+    /// There is only one state in the program
+    /// This account should be initialized before post
     pub fn create_state(
         ctx: Context<CreateState>,
     ) -> ProgramResult {
@@ -33,10 +34,10 @@ pub mod facebook_clone {
         Ok(())
     }
 
-    // Create post
-    // @param text:        text of post
-    // @param poster_name: name of post creator
-    // @param poster_url:  url of post creator avatar
+    /// Create post
+    /// @param text:        text of post
+    /// @param poster_name: name of post creator
+    /// @param poster_url:  url of post creator avatar
     pub fn create_post(
         ctx: Context<CreatePost>,
         text: String,
@@ -68,10 +69,10 @@ pub mod facebook_clone {
         Ok(())
     }
 
-    // Create comment for post
-    // @param text:            text of comment
-    // @param commenter_name:  name of comment creator
-    // @param commenter_url:   url of comment creator avatar
+    /// Create comment for post
+    /// @param text:            text of comment
+    /// @param commenter_name:  name of comment creator
+    /// @param commenter_url:   url of comment creator avatar
     pub fn create_comment(
         ctx: Context<CreateComment>,
         text: String,
@@ -104,8 +105,8 @@ pub mod facebook_clone {
     }
 }
 
-// Contexts
-// CreateState context
+/// Contexts
+/// CreateState context
 #[derive(Accounts)]
 pub struct CreateState<'info> {
     // Authenticating state account
@@ -120,27 +121,31 @@ pub struct CreateState<'info> {
 
     // Authority (this is signer who paid transaction fee)
     #[account(mut)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Signer<'info>,
 
     /// System program
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub system_program: UncheckedAccount<'info>,
 
     // Token program
     #[account(constraint = token_program.key == &token::ID)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub token_program: Program<'info, Token>,
 }
 
-// CreatePost context
+/// CreatePost context
 #[derive(Accounts)]
 pub struct CreatePost<'info> {
     // Authenticate state account
     #[account(mut, seeds = [b"state".as_ref()], bump)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub state: Account<'info, StateAccount>,
 
     // Authenticate post account
-    // Post account use string "post" and index of post as seeds
     #[account(
     init,
+    // Post account use string "post" and index of post as seeds
     seeds = [b"post".as_ref(), state.post_count.to_be_bytes().as_ref()],
     bump,
     payer = authority,
@@ -150,49 +155,59 @@ pub struct CreatePost<'info> {
 
     // Authority (this is signer who paid transaction fee)
     #[account(mut)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Signer<'info>,
 
-    // System program
+    /// System program
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub system_program: UncheckedAccount<'info>,
 
     // Token program
     #[account(constraint = token_program.key == &token::ID)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub token_program: Program<'info, Token>,
 
     // Clock to save time
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub clock: Sysvar<'info, Clock>,
 }
 
-// CreateComment context
+/// CreateComment context
 #[derive(Accounts)]
 pub struct CreateComment<'info> {
     // Authenticate post account
     #[account(mut, seeds = [b"post".as_ref(), post.index.to_be_bytes().as_ref()], bump)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub post: Account<'info, PostAccount>,
 
     // Authenticate comment account
-    // Post account use string "comment", index of post and index of comment per post as seeds
     #[account(
     init,
+    // Post account use string "comment", index of post and index of comment per post as seeds
     seeds = [b"comment".as_ref(), post.index.to_be_bytes().as_ref(), post.comment_count.to_be_bytes().as_ref()],
     bump,
     payer = authority,
     space = size_of::<CommentAccount>() + TEXT_LENGTH + USER_NAME_LENGTH + USER_URL_LENGTH
     )]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub comment: Account<'info, CommentAccount>,
 
     // Authority (this is signer who paid transaction fee)
     #[account(mut)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Signer<'info>,
 
-    // System program
+    /// System program
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub system_program: UncheckedAccount<'info>,
 
     // Token program
     #[account(constraint = token_program.key == &token::ID)]
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub token_program: Program<'info, Token>,
 
     // Clock to save time
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub clock: Sysvar<'info, Clock>,
 }
 
@@ -200,9 +215,11 @@ pub struct CreateComment<'info> {
 #[account]
 pub struct StateAccount {
     // Signer address
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Pubkey,
 
     // Post count
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub post_count: u64,
 }
 
@@ -210,24 +227,31 @@ pub struct StateAccount {
 #[account]
 pub struct PostAccount {
     // Signer address
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Pubkey,
 
     // Post text
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub text: String,
 
     // Post creator name
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub poster_name: String,
 
     // Post creator url
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub poster_url: String,
 
     // Comment counts of post
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub comment_count: u64,
 
     // Post index
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub index: u64,
 
     // Post time
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub post_time: i64,
 }
 
@@ -235,20 +259,26 @@ pub struct PostAccount {
 #[account]
 pub struct CommentAccount {
     // Signer address
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub authority: Pubkey,
 
     // Comment text
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub text: String,
 
     // commenter_name
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub commenter_name: String,
 
     // commenter_url
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub commenter_url: String,
 
     // Comment index
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub index: u64,
 
     // Post time
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub post_time: i64,
 }
