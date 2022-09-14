@@ -6,10 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@project-serum/anchor": "^0.25.0",
     "@sanity/client": "^3.4.1",
+    "@solana/spl-token": "^0.3.5",
+    "@solana/wallet-adapter-react": "^0.15.18",
+    "@solana/wallet-adapter-react-ui": "^0.9.16",
+    "@solana/wallet-adapter-wallets": "^0.18.9",
+    "@solana/web3.js": "^1.61.1",
     "next": "latest",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "react-hot-toast": "^2.4.0"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
