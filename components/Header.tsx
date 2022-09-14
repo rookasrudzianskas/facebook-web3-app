@@ -21,7 +21,10 @@ const style = {
     balanceText: `text-white font-bold ml-2`,
 }
 
-const Header = () => {
+// @ts-ignore
+const Header = ({ name, url }) => {
+    // const [balance] = useWalletBalance()
+
     return (
         <div className={style.wrapper}>
             <div className={style.headerLeft}>

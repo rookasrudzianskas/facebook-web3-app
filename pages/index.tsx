@@ -25,6 +25,8 @@ const Home: NextPage = () => {
            <title>Facebook Web3</title>
            <link rel="icon" href="/favicon.ico" />
        </Head>
+
+        {/*@ts-ignore */}
         <Header name={name} url={url} />
 
         {registered ? (
