@@ -8,6 +8,7 @@ import {getProgramInstance} from "../utils/get-program";
 // import CreatePost from "./CreatePost";
 import anchor from "@project-serum/anchor";
 import CreatePost from "./CreatePost";
+import Post from "./Post";
 
 const style = {
     wrapper: `flex-1 max-w-2xl mx-4`,
@@ -195,16 +196,16 @@ const Feed = ({ connected, name, url }) => {
                             url={url}
                         />
 
-                        {/*{posts.map(post => (*/}
-                        {/*    <Post*/}
-                        {/*        post={post.account}*/}
-                        {/*        viewDetail={getCommentsOnPost}*/}
-                        {/*        createComment={saveComment}*/}
-                        {/*        key={post.account.index}*/}
-                        {/*        name={name}*/}
-                        {/*        url={url}*/}
-                        {/*    />*/}
-                        {/*))}*/}
+                        {posts.map(post => (
+                            <Post
+                                post={post.account}
+                                // viewDetail={getCommentsOnPost}
+                                // createComment={saveComment}
+                                key={post.account.index}
+                                name={name}
+                                url={url}
+                            />
+                        ))}
                     </div>
                 )}
             </div>

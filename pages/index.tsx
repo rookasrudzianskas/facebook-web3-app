@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import Header from "../components/Header";
 import SignUp from "../components/SignUp";
 import Feed from "../components/Feed";
+import { useWallet } from '@solana/wallet-adapter-react'
 
 const style = {
     wrapper: `bg-[#18191a] min-h-screen duration-[0.5s]`,
@@ -15,10 +16,32 @@ const style = {
 }
 
 const Home: NextPage = () => {
-    const [registered, setRegistered] = useState(true)
+    const [registered, setRegistered] = useState(false)
     const [name, setName] = useState('')
     const [url, setUrl] = useState('')
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        ;(async () => {
+            // @ts-ignore
+            await requestUsersData()
+        })()
+    }, []);
+
+    const wallet = useWallet()
+
+
+    // @ts-ignore
+    const requestUsersData = async activeAccount => {
+        try {
+            const response = await fetch(`/api/fetchUsers`)
+            const data = await response.json()
+
+            setUsers(data.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
   return (
    <div className={style.wrapper}>
