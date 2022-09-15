@@ -16,7 +16,7 @@ const style = {
 const SignUp = ({ setRegistered, name, setName, url, setUrl }) => {
 
     const createUser = async event => {
-        // setRegistered(true)
+        setRegistered(true)
 
         const resp = await window.solana.connect()
         const walletAddress = resp.publicKey.toString()
@@ -73,14 +73,14 @@ const SignUp = ({ setRegistered, name, setName, url, setUrl }) => {
                     <div className={style.inputTitle}>Profile Image URL</div>
                     <div className={style.inputContainer}>
                         <input
-                            // value={url}
-                            // onChange={event => setUrl(event.target.value)}
+                            value={url}
+                            onChange={event => setUrl(event.target.value)}
                             required
                             className={style.inputField}
                         />
                         <div
                             className={style.randomUrl}
-                            // onClick={() => generateRandomProfileImageUrl()}
+                            onClick={() => generateRandomProfileImageUrl()}
                         >
                             Random
                         </div>

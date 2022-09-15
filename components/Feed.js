@@ -14,13 +14,12 @@ const style = {
     wrapper: `flex-1 max-w-2xl mx-4`,
 }
 
-const Feed = ({ connected, name, url }) => {
 
-    const anchor = require('@project-serum/anchor')
+const Feed = ({ connected, name, url }) => {
+    const anchor = require('@project-serum/anchor');
     const { BN, web3 } = anchor
     const utf8 = anchor.utils.bytes.utf8
     const { SystemProgram } = web3
-
 
     const defaultAccounts = {
         tokenProgram: TOKEN_PROGRAM_ID,
@@ -32,29 +31,27 @@ const Feed = ({ connected, name, url }) => {
     const connection = new anchor.web3.Connection(SOLANA_HOST)
     const program = getProgramInstance(connection, wallet)
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false)
 
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            await getAllPosts()
+        }, 2000)
+        getAllPosts()
+        return () => clearInterval(interval)
+    }, [connected, getAllPosts])
 
-    //
-    // useEffect(() => {
-    //     const interval = setInterval(async () => {
-    //         await getAllPosts()
-    //     }, 2000)
-    //     getAllPosts()
-    //     return () => clearInterval(interval)
-    // }, [connected, getAllPosts])
-    //
-    // useEffect(() => {
-    //     toast('Posts Refreshed!', {
-    //         icon: '🔁',
-    //         style: {
-    //             borderRadius: '10px',
-    //             background: '#252526',
-    //             color: '#fffcf9',
-    //         },
-    //     })
-    // }, [posts.length])
-    //
+    useEffect(() => {
+        toast('Posts Refreshed!', {
+            icon: '🔁',
+            style: {
+                borderRadius: '10px',
+                background: '#252526',
+                color: '#fffcf9',
+            },
+        })
+    }, [posts.length])
+
     const getAllPosts = async () => {
         try {
             const postsData = await program.account.postAccount.all()
@@ -177,10 +174,9 @@ const Feed = ({ connected, name, url }) => {
 
             await program.account.commentAccount.fetch(commentSigner)
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     }
-
     return (
         <div className={style.wrapper}>
             <Toaster position='bottom-left' reverseOrder={false} />
