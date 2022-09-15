@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
-import { Programs } from "../target/types/programs";
+// import { Programs } from "../target/types/programs";
 
 describe("programs", () => {
   // Configure the client to use the local cluster.
