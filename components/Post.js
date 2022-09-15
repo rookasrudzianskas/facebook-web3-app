@@ -46,7 +46,7 @@ const Post = ({ post, viewDetail, createComment, name, url }) => {
     const postDetail = async () => {
         const result = await viewDetail(post.index, post);
 
-        setComments(await result)
+        setComments(await result);
     }
 
     const createCommentForPost = async text => {

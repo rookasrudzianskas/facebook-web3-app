@@ -70,43 +70,43 @@ const Feed = ({ connected, name, url }) => {
             console.error(error)
         }
     }
-    //
-    // const getCommentsOnPost = async (index, oldPost) => {
-    //     try {
-    //         let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //             [utf8.encode('post'), index.toArrayLike(Buffer, 'be', 8)],
-    //             program.programId,
-    //         )
-    //
-    //         const post = await program.account.postAccount.fetch(postSigner)
-    //
-    //         let commentSigners = []
-    //
-    //         for (let i = 0; i < post.commentCount.toNumber(); i++) {
-    //             let [commentSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //                 [
-    //                     utf8.encode('comment'),
-    //                     new BN(index).toArrayLike(Buffer, 'be', 8),
-    //                     new BN(i).toArrayLike(Buffer, 'be', 8),
-    //                 ],
-    //                 program.programId,
-    //             )
-    //
-    //             commentSigners.push(commentSigner)
-    //         }
-    //
-    //         const comments = await program.account.commentAccount.fetchMultiple(
-    //             commentSigners,
-    //         )
-    //
-    //         comments.sort((a, b) => a.postTime.toNumber() - b.postTime.toNumber())
-    //
-    //         return comments
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
-    //
+
+    const getCommentsOnPost = async (index, oldPost) => {
+        try {
+            let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
+                [utf8.encode('post'), index.toArrayLike(Buffer, 'be', 8)],
+                program.programId,
+            )
+
+            const post = await program.account.postAccount.fetch(postSigner)
+
+            let commentSigners = []
+
+            for (let i = 0; i < post.commentCount.toNumber(); i++) {
+                let [commentSigner] = await anchor.web3.PublicKey.findProgramAddress(
+                    [
+                        utf8.encode('comment'),
+                        new BN(index).toArrayLike(Buffer, 'be', 8),
+                        new BN(i).toArrayLike(Buffer, 'be', 8),
+                    ],
+                    program.programId,
+                )
+
+                commentSigners.push(commentSigner)
+            }
+
+            const comments = await program.account.commentAccount.fetchMultiple(
+                commentSigners,
+            )
+
+            comments.sort((a, b) => a.postTime.toNumber() - b.postTime.toNumber())
+
+            return comments
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const savePost = async text => {
         let [stateSigner] = await anchor.web3.PublicKey.findProgramAddress(
             [utf8.encode('state')],
@@ -150,36 +150,36 @@ const Feed = ({ connected, name, url }) => {
         }
     }
 
-    // const saveComment = async (text, index, count) => {
-    //     let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //         [utf8.encode('post'), index.toArrayLike(Buffer, 'be', 8)],
-    //         program.programId,
-    //     )
-    //
-    //     try {
-    //         let [commentSigner] = await anchor.web3.PublicKey.findProgramAddress(
-    //             [
-    //                 utf8.encode('comment'),
-    //                 index.toArrayLike(Buffer, 'be', 8),
-    //                 count.toArrayLike(Buffer, 'be', 8),
-    //             ],
-    //             program.programId,
-    //         )
-    //
-    //         await program.rpc.createComment(text, name, url, {
-    //             accounts: {
-    //                 post: postSigner,
-    //                 comment: commentSigner,
-    //                 authority: wallet.publicKey,
-    //                 ...defaultAccounts,
-    //             },
-    //         })
-    //
-    //         await program.account.commentAccount.fetch(commentSigner)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
+    const saveComment = async (text, index, count) => {
+        let [postSigner] = await anchor.web3.PublicKey.findProgramAddress(
+            [utf8.encode('post'), index.toArrayLike(Buffer, 'be', 8)],
+            program.programId,
+        )
+
+        try {
+            let [commentSigner] = await anchor.web3.PublicKey.findProgramAddress(
+                [
+                    utf8.encode('comment'),
+                    index.toArrayLike(Buffer, 'be', 8),
+                    count.toArrayLike(Buffer, 'be', 8),
+                ],
+                program.programId,
+            )
+
+            await program.rpc.createComment(text, name, url, {
+                accounts: {
+                    post: postSigner,
+                    comment: commentSigner,
+                    authority: wallet.publicKey,
+                    ...defaultAccounts,
+                },
+            })
+
+            await program.account.commentAccount.fetch(commentSigner)
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className={style.wrapper}>
@@ -199,8 +199,8 @@ const Feed = ({ connected, name, url }) => {
                         {posts.map(post => (
                             <Post
                                 post={post.account}
-                                // viewDetail={getCommentsOnPost}
-                                // createComment={saveComment}
+                                viewDetail={getCommentsOnPost}
+                                createComment={saveComment}
                                 key={post.account.index}
                                 name={name}
                                 url={url}
