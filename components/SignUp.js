@@ -95,3 +95,4 @@ const SignUp = ({ setRegistered, name, setName, url, setUrl }) => {
 };
 
 export default SignUp;
+
