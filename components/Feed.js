@@ -32,7 +32,7 @@ const Feed = ({ connected, name, url }) => {
     const connection = new anchor.web3.Connection(SOLANA_HOST)
     const program = getProgramInstance(connection, wallet)
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
 
     //

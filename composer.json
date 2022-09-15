@@ -1,0 +1,14 @@
+{
+  "name": "vendor_name/facebookweb3",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "rookasrudzianskas",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}
