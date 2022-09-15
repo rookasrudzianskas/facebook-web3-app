@@ -41,10 +41,10 @@ const Post = ({ post, viewDetail, createComment, name, url }) => {
     }, [comments])
 
     const clockToDateString = timestamp =>
-        timeAgo.format(new Date(timestamp.toNumber() * 1000), 'twitter-now')
+        timeAgo.format(new Date(timestamp.toNumber() * 1000), 'twitter-now');
 
     const postDetail = async () => {
-        const result = await viewDetail(post.index, post)
+        const result = await viewDetail(post.index, post);
 
         setComments(await result)
     }
