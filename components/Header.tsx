@@ -1,5 +1,13 @@
-import React from 'react';
-import Image from "next/image";
+import { useState } from 'react'
+import Image from 'next/image'
+import { AiOutlineSearch, AiFillHome } from 'react-icons/ai'
+import { BsDisplay } from 'react-icons/bs'
+import { RiGroup2Line } from 'react-icons/ri'
+import { SiFacebookgaming } from 'react-icons/si'
+import solanaLogo from '../assets/sol.png'
+import useWalletBalance from '../context/useWalletBalance'
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+require('@solana/wallet-adapter-react-ui/styles.css')
 
 const style = {
     wrapper: `flex items-center w-full h-[4rem] justify-around px-[1rem] py-[0.2rem] sticky top-0 bg-[#252526] shadow-[0px 5px 8px -9px rgba(0, 0, 0, 0.75)] z-20`,
@@ -23,7 +31,7 @@ const style = {
 
 // @ts-ignore
 const Header = ({ name, url }) => {
-    // const [balance] = useWalletBalance()
+    const [balance] = useWalletBalance()
 
     return (
         <div className={style.wrapper}>
@@ -36,7 +44,7 @@ const Header = ({ name, url }) => {
                     width={30}
                 />
                 <div className={style.searchContainer}>
-                    {/*<AiOutlineSearch />*/}
+                    <AiOutlineSearch />
                     <input
                         type='text'
                         className={style.searchInput}
@@ -47,47 +55,42 @@ const Header = ({ name, url }) => {
             <div className={style.headerCenterContainer}>
                 <div className={style.headerCenterWrapper}>
                     <div className={style.centerNavIconContainer}>
-                        {/*<AiFillHome className={style.centerNavIcon} />*/}
+                        <AiFillHome className={style.centerNavIcon} />
                     </div>
                     <div className={style.centerNavIconContainer}>
-                        {/*<BsDisplay className={style.centerNavIcon} />*/}
+                        <BsDisplay className={style.centerNavIcon} />
                     </div>
                     <div className={style.centerNavIconContainer}>
-                        {/*<RiGroup2Line className={style.centerNavIcon} />*/}
+                        <RiGroup2Line className={style.centerNavIcon} />
                     </div>
                     <div className={style.centerNavIconContainer}>
-                        {/*<SiFacebookgaming className={style.centerNavIcon} />*/}
+                        <SiFacebookgaming className={style.centerNavIcon} />
                     </div>
                 </div>
             </div>
             <div className={style.headerRight}>
-                {/*{name && (*/}
+                {name && (
                     <div className={`${style.userInfo} ${style.headerRightButton}`}>
-                        {/*<Image*/}
-                        {/*    src={url}*/}
-                        {/*    height={20}*/}
-                        {/*    width={20}*/}
-                        {/*    className={style.userImage}*/}
-                        {/*    alt='user image'*/}
-                        {/*/>*/}
-                        <div className={style.userName}>
-                            {/*{name}*/}
-                            Rokas
-                        </div>
+                        <Image
+                            src={url}
+                            height={20}
+                            width={20}
+                            className={style.userImage}
+                            alt='user image'
+                        />
+                        <div className={style.userName}>{name}</div>
                     </div>
-                {/*)}*/}
-                {/*<WalletMultiButton />*/}
+                )}
+                <WalletMultiButton />
                 <div className={`${style.balanceContainer} ${style.headerRightButton}`}>
-                    {/*<Image*/}
-                    {/*    className={style.balanceIcon}*/}
-                    {/*    src={solanaLogo}*/}
-                    {/*    height={20}*/}
-                    {/*    width={20}*/}
-                    {/*    alt='solana logo'*/}
-                    {/*/>*/}
-                    <div className={style.balanceText}>
-                        {/*{balance.toFixed(2)}*/}
-                        2 SOL</div>
+                    <Image
+                        className={style.balanceIcon}
+                        src={solanaLogo}
+                        height={20}
+                        width={20}
+                        alt='solana logo'
+                    />
+                    <div className={style.balanceText}>{balance.toFixed(2)} SOL</div>
                 </div>
             </div>
         </div>

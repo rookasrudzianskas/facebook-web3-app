@@ -16,7 +16,7 @@ const style = {
 }
 
 const Home: NextPage = () => {
-    const [registered, setRegistered] = useState(true)
+    const [registered, setRegistered] = useState(false)
     const [name, setName] = useState('')
     const [url, setUrl] = useState('')
     const [users, setUsers] = useState([]);
