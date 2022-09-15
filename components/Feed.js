@@ -13,8 +13,6 @@ const style = {
     wrapper: `flex-1 max-w-2xl mx-4`,
 }
 
-
-
 const Feed = ({ connected, name, url }) => {
 
     const anchor = require('@project-serum/anchor')
