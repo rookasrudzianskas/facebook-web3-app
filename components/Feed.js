@@ -5,32 +5,36 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
 import { SOLANA_HOST } from '../utils/const'
 import {getProgramInstance} from "../utils/get-program";
-import CreatePost from "./CreatePost";
-
-
-const anchor = require('@project-serum/anchor')
-const { BN, web3 } = anchor
-const utf8 = anchor.utils.bytes.utf8
-const { SystemProgram } = web3
+// import CreatePost from "./CreatePost";
+import anchor from "@project-serum/anchor";
 
 const style = {
     wrapper: `flex-1 max-w-2xl mx-4`,
 }
 
 
-const defaultAccounts = {
-    tokenProgram: TOKEN_PROGRAM_ID,
-    clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
-    systemProgram: SystemProgram.programId,
-}
 
 const Feed = ({ connected, name, url }) => {
+
+    const anchor = require('@project-serum/anchor')
+    const { BN, web3 } = anchor
+    const utf8 = anchor.utils.bytes.utf8
+    const { SystemProgram } = web3
+
+
+    const defaultAccounts = {
+        tokenProgram: TOKEN_PROGRAM_ID,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        systemProgram: SystemProgram.programId,
+    }
 
     const wallet = useWallet()
     const connection = new anchor.web3.Connection(SOLANA_HOST)
     const program = getProgramInstance(connection, wallet)
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+
+
     //
     // useEffect(() => {
     //     const interval = setInterval(async () => {
