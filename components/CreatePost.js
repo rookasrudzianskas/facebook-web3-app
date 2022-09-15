@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {BsFileImageFill, BsFillCameraVideoFill} from "react-icons/all";
-import {FiRefreshCw} from "react-icons/fi";
+import { BsFileImageFill, BsFillCameraVideoFill } from 'react-icons/bs'
+import { FiRefreshCw } from 'react-icons/fi'
 import Image from "next/image";
 // import 'react-simple-hook-modal/dist/styles.css'
 

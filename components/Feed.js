@@ -7,6 +7,7 @@ import { SOLANA_HOST } from '../utils/const'
 import {getProgramInstance} from "../utils/get-program";
 // import CreatePost from "./CreatePost";
 import anchor from "@project-serum/anchor";
+import CreatePost from "./CreatePost";
 
 const style = {
     wrapper: `flex-1 max-w-2xl mx-4`,
@@ -189,12 +190,12 @@ const Feed = ({ connected, name, url }) => {
                     <div>Loading...</div>
                 ) : (
                     <div>
-                        {/*<CreatePost*/}
-                        {/*    savePost={savePost}*/}
-                        {/*    getAllPosts={getAllPosts}*/}
-                        {/*    name={name}*/}
-                        {/*    url={url}*/}
-                        {/*/>*/}
+                        <CreatePost
+                            savePost={savePost}
+                            getAllPosts={getAllPosts}
+                            name={name}
+                            url={url}
+                        />
 
                         {/*{posts.map(post => (*/}
                         {/*    <Post*/}
