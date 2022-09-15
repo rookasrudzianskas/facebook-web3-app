@@ -5,6 +5,8 @@ import {useEffect, useState} from 'react'
 import Header from "../components/Header";
 import SignUp from "../components/SignUp";
 import Feed from "../components/Feed";
+import Sidebar from "../components/Sidebar";
+import RightSidebar from "../components/RightSidebar";
 import { useWallet } from '@solana/wallet-adapter-react'
 
 const style = {
@@ -16,7 +18,7 @@ const style = {
 }
 
 const Home: NextPage = () => {
-    const [registered, setRegistered] = useState(false)
+    const [registered, setRegistered] = useState(true)
     const [name, setName] = useState('')
     const [url, setUrl] = useState('')
     const [users, setUsers] = useState([]);
@@ -29,7 +31,6 @@ const Home: NextPage = () => {
     }, []);
 
     const wallet = useWallet()
-
 
     // @ts-ignore
     const requestUsersData = async activeAccount => {
@@ -55,18 +56,18 @@ const Home: NextPage = () => {
 
         {registered ? (
             <div className={style.homeWrapper}>
-                {/*<Sidebar name={name} url={url} />*/}
+                <Sidebar name={name} url={url} />
                 <div className={style.main}>
                     {/* @ts-ignore */}
                     <Feed
-                        // connected={wallet.connected}
+                        connected={wallet.connected}
                         name={name} url={url} />
                 </div>
-                {/*<RightSidebar*/}
-                {/*    getUsers={requestUsersData}*/}
-                {/*    users={users}*/}
-                {/*    setUsers={setUsers}*/}
-                {/*/>*/}
+                <RightSidebar
+                    getUsers={requestUsersData}
+                    users={users}
+                    setUsers={setUsers}
+                />
             </div>
         ) : (
             <div className={style.signupContainer}>
