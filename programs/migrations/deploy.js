@@ -15,5 +15,6 @@ module.exports = function (provider) {
     return __awaiter(this, void 0, void 0, function* () {
         // Configure client to use the provider.
         anchor.setProvider(provider);
+        return provider;
     });
 };
